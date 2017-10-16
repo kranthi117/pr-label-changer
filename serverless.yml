@@ -1,0 +1,24 @@
+service: github-label-changer
+
+provider:
+  name: aws
+  runtime: python3.6
+  region: us-west-2
+  stage: test12
+
+functions:
+  hello:
+    handler: index.main
+    name: ${self:provider.stage}-github-label-changer-test
+    timeout: 10
+    environment:
+      GITHUB_TOKEN: ${env:GITHUB_TOKEN}
+      LABEL_PLUS_1: ${env:LABEL_PLUS_1}
+      LABEL_PLUS_2: ${env:LABEL_PLUS_2}
+      LABEL_APPROVED: ${env:LABEL_APPROVED}
+      LABEL_REQUESTED_CHANGES: ${env:LABEL_REQUESTED_CHANGES}
+    events:
+      - http:
+          path: github-label-changer/webhook
+          method: post
+          integration: lambda
