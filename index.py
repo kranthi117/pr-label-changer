@@ -38,10 +38,8 @@ def get_approved_reviews(pr_number, url):
     reviews = reviews_request.json()
     approvals = set()
     for review in reviews:
-        if review["state"] != "APPROVED":
-            pass
-
-        approvals.add(review["user"]["login"])
+        if review["state"] == "APPROVED":
+            approvals.add(review["user"]["login"])
     return len(approvals)
 
 def created(pr_number, repo_url):
@@ -50,6 +48,7 @@ def created(pr_number, repo_url):
 
 def reviewed(pr_number, repo_url):
     number_of_approved_reviews = get_approved_reviews(pr_number, repo_url)
+    print("Number of approved reviews for " + str(pr_number) + " are " + str(number_of_approved_reviews))
     if(number_of_approved_reviews == 1):
         remove_label(plus_one_review, pr_number, repo_url)
         add_label(plus_two_review, pr_number, repo_url)

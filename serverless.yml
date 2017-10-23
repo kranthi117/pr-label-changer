@@ -4,12 +4,12 @@ provider:
   name: aws
   runtime: python3.6
   region: us-west-2
-  stage: test12
+  stage: dev
 
 functions:
   hello:
     handler: index.main
-    name: ${self:provider.stage}-github-label-changer-test
+    name: ${self:provider.stage}-github-label-changer
     timeout: 10
     environment:
       GITHUB_TOKEN: ${env:GITHUB_TOKEN}
